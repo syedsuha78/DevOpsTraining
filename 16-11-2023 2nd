@@ -1,0 +1,274 @@
+controlplane ~ ➜  kubectl get pods
+NAME                    READY   STATUS             RESTARTS   AGE
+new-replica-set-nwt7x   0/1     ImagePullBackOff   0          5m4s
+new-replica-set-l22ms   0/1     ImagePullBackOff   0          5m4s
+new-replica-set-bnzlf   0/1     ImagePullBackOff   0          5m4s
+new-replica-set-cgkhv   0/1     ImagePullBackOff   0          5m4s
+
+controlplane ~ ➜  kubectl get rs
+NAME              DESIRED   CURRENT   READY   AGE
+new-replica-set   4         4         0       5m12s
+
+controlplane ~ ➜  kubectl describe pods
+Name:             new-replica-set-nwt7x
+Namespace:        default
+Priority:         0
+Service Account:  default
+Node:             controlplane/192.24.14.9
+Start Time:       Thu, 16 Nov 2023 13:22:41 +0000
+Labels:           name=busybox-pod
+Annotations:      <none>
+Status:           Pending
+IP:               10.42.0.12
+IPs:
+  IP:           10.42.0.12
+Controlled By:  ReplicaSet/new-replica-set
+Containers:
+  busybox-container:
+    Container ID:  
+    Image:         busybox777
+    Image ID:      
+    Port:          <none>
+    Host Port:     <none>
+    Command:
+      sh
+      -c
+      echo Hello Kubernetes! && sleep 3600
+    State:          Waiting
+      Reason:       ImagePullBackOff
+    Ready:          False
+    Restart Count:  0
+    Environment:    <none>
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-25gnb (ro)
+Conditions:
+  Type              Status
+  Initialized       True 
+  Ready             False 
+  ContainersReady   False 
+  PodScheduled      True 
+Volumes:
+  kube-api-access-25gnb:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   BestEffort
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type     Reason     Age                    From               Message
+  ----     ------     ----                   ----               -------
+  Normal   Scheduled  5m36s                  default-scheduler  Successfully assigned default/new-replica-set-nwt7x to controlplane
+  Normal   Pulling    4m3s (x4 over 5m35s)   kubelet            Pulling image "busybox777"
+  Warning  Failed     4m3s (x4 over 5m35s)   kubelet            Failed to pull image "busybox777": rpc error: code = Unknown desc = failed to pull and unpack image "docker.io/library/busybox777:latest": failed to resolve reference "docker.io/library/busybox777:latest": pull access denied, repository does not exist or may require authorization: server message: insufficient_scope: authorization failed
+  Warning  Failed     4m3s (x4 over 5m35s)   kubelet            Error: ErrImagePull
+  Warning  Failed     3m48s (x6 over 5m34s)  kubelet            Error: ImagePullBackOff
+  Normal   BackOff    23s (x21 over 5m34s)   kubelet            Back-off pulling image "busybox777"
+
+
+Name:             new-replica-set-l22ms
+Namespace:        default
+Priority:         0
+Service Account:  default
+Node:             controlplane/192.24.14.9
+Start Time:       Thu, 16 Nov 2023 13:22:41 +0000
+Labels:           name=busybox-pod
+Annotations:      <none>
+Status:           Pending
+IP:               10.42.0.9
+IPs:
+  IP:           10.42.0.9
+Controlled By:  ReplicaSet/new-replica-set
+Containers:
+  busybox-container:
+    Container ID:  
+    Image:         busybox777
+    Image ID:      
+    Port:          <none>
+    Host Port:     <none>
+    Command:
+      sh
+      -c
+      echo Hello Kubernetes! && sleep 3600
+    State:          Waiting
+      Reason:       ImagePullBackOff
+    Ready:          False
+    Restart Count:  0
+    Environment:    <none>
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-8wmtf (ro)
+Conditions:
+  Type              Status
+  Initialized       True 
+  Ready             False 
+  ContainersReady   False 
+  PodScheduled      True 
+Volumes:
+  kube-api-access-8wmtf:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   BestEffort
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type     Reason     Age                    From               Message
+  ----     ------     ----                   ----               -------
+  Normal   Scheduled  5m36s                  default-scheduler  Successfully assigned default/new-replica-set-l22ms to controlplane
+  Normal   Pulling    4m2s (x4 over 5m35s)   kubelet            Pulling image "busybox777"
+  Warning  Failed     4m2s (x4 over 5m35s)   kubelet            Failed to pull image "busybox777": rpc error: code = Unknown desc = failed to pull and unpack image "docker.io/library/busybox777:latest": failed to resolve reference "docker.io/library/busybox777:latest": pull access denied, repository does not exist or may require authorization: server message: insufficient_scope: authorization failed
+  Warning  Failed     4m2s (x4 over 5m35s)   kubelet            Error: ErrImagePull
+  Warning  Failed     3m48s (x6 over 5m34s)  kubelet            Error: ImagePullBackOff
+  Normal   BackOff    25s (x21 over 5m34s)   kubelet            Back-off pulling image "busybox777"
+
+
+Name:             new-replica-set-bnzlf
+Namespace:        default
+Priority:         0
+Service Account:  default
+Node:             controlplane/192.24.14.9
+Start Time:       Thu, 16 Nov 2023 13:22:41 +0000
+Labels:           name=busybox-pod
+Annotations:      <none>
+Status:           Pending
+IP:               10.42.0.10
+IPs:
+  IP:           10.42.0.10
+Controlled By:  ReplicaSet/new-replica-set
+Containers:
+  busybox-container:
+    Container ID:  
+    Image:         busybox777
+    Image ID:      
+    Port:          <none>
+    Host Port:     <none>
+    Command:
+      sh
+      -c
+      echo Hello Kubernetes! && sleep 3600
+    State:          Waiting
+      Reason:       ImagePullBackOff
+    Ready:          False
+    Restart Count:  0
+    Environment:    <none>
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-jm9kc (ro)
+Conditions:
+  Type              Status
+  Initialized       True 
+  Ready             False 
+  ContainersReady   False 
+  PodScheduled      True 
+Volumes:
+  kube-api-access-jm9kc:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   BestEffort
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type     Reason     Age                    From               Message
+  ----     ------     ----                   ----               -------
+  Normal   Scheduled  5m36s                  default-scheduler  Successfully assigned default/new-replica-set-bnzlf to controlplane
+  Normal   Pulling    3m58s (x4 over 5m35s)  kubelet            Pulling image "busybox777"
+  Warning  Failed     3m58s (x4 over 5m35s)  kubelet            Failed to pull image "busybox777": rpc error: code = Unknown desc = failed to pull and unpack image "docker.io/library/busybox777:latest": failed to resolve reference "docker.io/library/busybox777:latest": pull access denied, repository does not exist or may require authorization: server message: insufficient_scope: authorization failed
+  Warning  Failed     3m58s (x4 over 5m35s)  kubelet            Error: ErrImagePull
+  Warning  Failed     3m45s (x6 over 5m34s)  kubelet            Error: ImagePullBackOff
+  Normal   BackOff    32s (x20 over 5m34s)   kubelet            Back-off pulling image "busybox777"
+
+
+Name:             new-replica-set-cgkhv
+Namespace:        default
+Priority:         0
+Service Account:  default
+Node:             controlplane/192.24.14.9
+Start Time:       Thu, 16 Nov 2023 13:22:41 +0000
+Labels:           name=busybox-pod
+Annotations:      <none>
+Status:           Pending
+IP:               10.42.0.11
+IPs:
+  IP:           10.42.0.11
+Controlled By:  ReplicaSet/new-replica-set
+Containers:
+  busybox-container:
+    Container ID:  
+    Image:         busybox777
+    Image ID:      
+    Port:          <none>
+    Host Port:     <none>
+    Command:
+      sh
+      -c
+      echo Hello Kubernetes! && sleep 3600
+    State:          Waiting
+      Reason:       ImagePullBackOff
+    Ready:          False
+    Restart Count:  0
+    Environment:    <none>
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-pgldw (ro)
+Conditions:
+  Type              Status
+  Initialized       True 
+  Ready             False 
+  ContainersReady   False 
+  PodScheduled      True 
+Volumes:
+  kube-api-access-pgldw:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   BestEffort
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type     Reason     Age                    From               Message
+  ----     ------     ----                   ----               -------
+  Normal   Scheduled  5m36s                  default-scheduler  Successfully assigned default/new-replica-set-cgkhv to controlplane
+  Normal   Pulling    4m (x4 over 5m35s)     kubelet            Pulling image "busybox777"
+  Warning  Failed     4m (x4 over 5m35s)     kubelet            Failed to pull image "busybox777": rpc error: code = Unknown desc = failed to pull and unpack image "docker.io/library/busybox777:latest": failed to resolve reference "docker.io/library/busybox777:latest": pull access denied, repository does not exist or may require authorization: server message: insufficient_scope: authorization failed
+  Warning  Failed     4m (x4 over 5m35s)     kubelet            Error: ErrImagePull
+  Warning  Failed     3m49s (x6 over 5m34s)  kubelet            Error: ImagePullBackOff
+  Normal   BackOff    27s (x21 over 5m34s)   kubelet            Back-off pulling image "busybox777"
+controlplane ~ ➜  kubectl delete pod new-replica-set-nwt7x
+pod "new-replica-set-nwt7x" deleted
+
+controlplane ~ ➜  kubectl get pods
+NAME                    READY   STATUS             RESTARTS   AGE
+new-replica-set-l22ms   0/1     ImagePullBackOff   0          8m16s
+new-replica-set-bnzlf   0/1     ImagePullBackOff   0          8m16s
+new-replica-set-cgkhv   0/1     ImagePullBackOff   0          8m16s
+new-replica-set-x86rr   0/1     ErrImagePull       0          11s
+
+controlplane ~ ➜  kubectl get rs
+NAME              DESIRED   CURRENT   READY   AGE
+new-replica-set   4         4         0       8m26s
+controlplane ~ ➜  vi replicaset-definition-1.yaml
+
+controlplane ~ ➜  kubectl create -f replicaset-definition-1.yaml
+replicaset.apps/replicaset-1 created
+
+
+controlplane ~ ➜  vi replicaset-definition-2.yaml
+
+controlplane ~ ➜  kubectl create -f replicaset-definition-2.yaml
+replicaset.apps/replicaset-2 created
+controlplane ~ ✖ kubectl delete -f replicaset-definition-2.yamlreplicaset.apps "replicaset-2" deleted
+
+controlplane ~ ➜  kubectl delete -f replicaset-definition-1.yaml
+replicaset.apps "replicaset-1" deleted
+
