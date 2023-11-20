@@ -1,0 +1,1151 @@
+controlplane ~ ➜  kubectl get podsNo resources found in default namespace.
+
+controlplane ~ ➜  kubectl get rs
+No resources found in default namespace.
+
+controlplane ~ ➜  kubectl get rs
+NAME              DESIRED   CURRENT   READY   AGE
+new-replica-set   4         4         0       12s
+
+controlplane ~ ➜  kubectl describe rs
+Name:         new-replica-set
+Namespace:    default
+Selector:     name=busybox-pod
+Labels:       <none>
+Annotations:  <none>
+Replicas:     4 current / 4 desired
+Pods Status:  0 Running / 4 Waiting / 0 Succeeded / 0 Failed
+Pod Template:
+  Labels:  name=busybox-pod
+  Containers:
+   busybox-container:
+    Image:      busybox777
+    Port:       <none>
+    Host Port:  <none>
+    Command:
+      sh
+      -c
+      echo Hello Kubernetes! && sleep 3600
+    Environment:  <none>
+    Mounts:       <none>
+  Volumes:        <none>
+Events:
+  Type    Reason            Age   From                   Message
+  ----    ------            ----  ----                   -------
+  Normal  SuccessfulCreate  50s   replicaset-controller  Created pod: new-replica-set-b5nh4
+  Normal  SuccessfulCreate  50s   replicaset-controller  Created pod: new-replica-set-dqmh8
+  Normal  SuccessfulCreate  50s   replicaset-controller  Created pod: new-replica-set-ht7zr
+  Normal  SuccessfulCreate  50s   replicaset-controller  Created pod: new-replica-set-9fpcl
+
+controlplane ~ ➜  kubectl describe rs new-replica-set
+Name:         new-replica-set
+Namespace:    default
+Selector:     name=busybox-pod
+Labels:       <none>
+Annotations:  <none>
+Replicas:     4 current / 4 desired
+Pods Status:  0 Running / 4 Waiting / 0 Succeeded / 0 Failed
+Pod Template:
+  Labels:  name=busybox-pod
+  Containers:
+   busybox-container:
+    Image:      busybox777
+    Port:       <none>
+    Host Port:  <none>
+    Command:
+      sh
+      -c
+      echo Hello Kubernetes! && sleep 3600
+    Environment:  <none>
+    Mounts:       <none>
+  Volumes:        <none>
+Events:
+  Type    Reason            Age   From                   Message
+  ----    ------            ----  ----                   -------
+  Normal  SuccessfulCreate  77s   replicaset-controller  Created pod: new-replica-set-b5nh4
+  Normal  SuccessfulCreate  77s   replicaset-controller  Created pod: new-replica-set-dqmh8
+  Normal  SuccessfulCreate  77s   replicaset-controller  Created pod: new-replica-set-ht7zr
+  Normal  SuccessfulCreate  77s   replicaset-controller  Created pod: new-replica-set-9fpcl
+
+controlplane ~ ➜  kubectl describe pod new-replica-set-b5nh4
+Name:             new-replica-set-b5nh4
+Namespace:        default
+Priority:         0
+Service Account:  default
+Node:             controlplane/192.9.50.9
+Start Time:       Mon, 20 Nov 2023 05:50:32 +0000
+Labels:           name=busybox-pod
+Annotations:      <none>
+Status:           Pending
+IP:               10.42.0.9
+IPs:
+  IP:           10.42.0.9
+Controlled By:  ReplicaSet/new-replica-set
+Containers:
+  busybox-container:
+    Container ID:  
+    Image:         busybox777
+    Image ID:      
+    Port:          <none>
+    Host Port:     <none>
+    Command:
+      sh
+      -c
+      echo Hello Kubernetes! && sleep 3600
+    State:          Waiting
+      Reason:       ImagePullBackOff
+    Ready:          False
+    Restart Count:  0
+    Environment:    <none>
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-s9kbv (ro)
+Conditions:
+  Type              Status
+  Initialized       True 
+  Ready             False 
+  ContainersReady   False 
+  PodScheduled      True 
+Volumes:
+  kube-api-access-s9kbv:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   BestEffort
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type     Reason     Age                    From               Message
+  ----     ------     ----                   ----               -------
+  Normal   Scheduled  4m27s                  default-scheduler  Successfully assigned default/new-replica-set-b5nh4 to controlplane
+  Normal   Pulling    2m51s (x4 over 4m27s)  kubelet            Pulling image "busybox777"
+  Warning  Failed     2m50s (x4 over 4m26s)  kubelet            Failed to pull image "busybox777": rpc error: code = Unknown desc = failed to pull and unpack image "docker.io/library/busybox777:latest": failed to resolve reference "docker.io/library/busybox777:latest": pull access denied, repository does not exist or may require authorization: server message: insufficient_scope: authorization failed
+  Warning  Failed     2m50s (x4 over 4m26s)  kubelet            Error: ErrImagePull
+  Warning  Failed     2m37s (x6 over 4m26s)  kubelet            Error: ImagePullBackOff
+  Normal   BackOff    2m26s (x7 over 4m26s)  kubelet            Back-off pulling image "busybox777"
+
+controlplane ~ ➜  kubectl get podsNAME                    READY   STATUS             RESTARTS   AGE
+new-replica-set-9fpcl   0/1     ImagePullBackOff   0          6m36s
+new-replica-set-dqmh8   0/1     ImagePullBackOff   0          6m36s
+new-replica-set-ht7zr   0/1     ImagePullBackOff   0          6m36s
+new-replica-set-b5nh4   0/1     ImagePullBackOff   0          6m36s
+
+controlplane ~ ➜  kubectl delete pod new-replica-set-9fpcl
+pod "new-replica-set-9fpcl" deleted
+
+controlplane ~ ➜  kubectl get podsNAME                    READY   STATUS             RESTARTS   AGE
+new-replica-set-dqmh8   0/1     ImagePullBackOff   0          7m25s
+new-replica-set-ht7zr   0/1     ImagePullBackOff   0          7m25s
+new-replica-set-b5nh4   0/1     ImagePullBackOff   0          7m25s
+new-replica-set-wfv5c   0/1     ErrImagePull       0          9s
+
+controlplane ~ ✖ ls /root
+replicaset-definition-1.yaml
+replicaset-definition-2.yaml
+sample.yaml
+
+controlplane ~ ➜  kubectl create -f replicaset-definition-1.yaml
+error: resource mapping not found for name: "replicaset-1" namespace: "" from "replicaset-definition-1.yaml": no matches for kind "ReplicaSet" in version "v1"
+ensure CRDs are installed first
+
+controlplane ~ ✖ cat /root/replicaset-definition-1.yaml
+apiVersion: v1
+kind: ReplicaSet
+metadata:
+  name: replicaset-1
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      tier: frontend
+  template:
+    metadata:
+      labels:
+        tier: frontend
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+
+
+controlplane ~ ➜  kubectl explain rs
+GROUP:      apps
+KIND:       ReplicaSet
+VERSION:    v1
+
+DESCRIPTION:
+    ReplicaSet ensures that a specified number of pod replicas are running at
+    any given time.
+    
+FIELDS:
+  apiVersion    <string>
+    APIVersion defines the versioned schema of this representation of an object.
+    Servers should convert recognized schemas to the latest internal value, and
+    may reject unrecognized values. More info:
+    https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+
+  kind  <string>
+    Kind is a string value representing the REST resource this object
+    represents. Servers may infer this from the endpoint the client submits
+    requests to. Cannot be updated. In CamelCase. More info:
+    https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+
+  metadata      <ObjectMeta>
+    If the Labels of a ReplicaSet are empty, they are defaulted to be the same
+    as the Pod(s) that the ReplicaSet manages. Standard object's metadata. More
+    info:
+    https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata
+
+  spec  <ReplicaSetSpec>
+    Spec defines the specification of the desired behavior of the ReplicaSet.
+    More info:
+    https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status
+
+  status        <ReplicaSetStatus>
+    Status is the most recently observed status of the ReplicaSet. This data may
+    be out of date by some window of time. Populated by the system. Read-only.
+    More info:
+    https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#spec-and-status
+
+
+
+controlplane ~ ➜  kubectl explain rs | grep VERSION
+VERSION:    v1
+
+controlplane ~ ➜  kubectl explain ReplicaSet | grep VERSION
+VERSION:    v1
+
+controlplane ~ ➜  vi /root/replicaset-definition-1.yaml
+
+controlplane ~ ➜  kubectl create -f replicaset-definition-1.yaml
+replicaset.apps/replicaset-1 created
+
+controlplane ~ ➜  ls 
+replicaset-definition-1.yaml
+replicaset-definition-2.yaml
+sample.yaml
+
+controlplane ~ ➜  kubectl create -f replicaset-definition-2.yaml
+The ReplicaSet "replicaset-2" is invalid: spec.template.metadata.labels: Invalid value: map[string]string{"tier":"nginx"}: `selector` does not match template `labels`
+
+controlplane ~ ✖ vi /root/replicaset-definition-2.yaml
+
+controlplane ~ ➜  kubectl create -f replicaset-definition-2.yaml
+replicaset.apps/replicaset-2 created
+
+controlplane ~ ➜  kubectl get rs
+NAME              DESIRED   CURRENT   READY   AGE
+new-replica-set   4         4         0       20m
+replicaset-1      2         2         2       5m27s
+replicaset-2      2         2         2       51s
+
+controlplane ~ ➜  kubectl delete re replicaset-1 replicaset-2
+error: the server doesn't have a resource type "re"
+
+controlplane ~ ✖ kubectl delete rs replicaset-1 replicaset-2
+replicaset.apps "replicaset-1" deleted
+replicaset.apps "replicaset-2" deleted
+
+controlplane ~ ➜  kubectl get rs
+NAME              DESIRED   CURRENT   READY   AGE
+new-replica-set   4         4         0       22m
+
+controlplane ~ ➜  kubectl edit rs new-replica-set
+replicaset.apps/new-replica-set edited
+
+controlplane ~ ➜  kubectl get podsNAME                    READY   STATUS             RESTARTS   AGE
+new-replica-set-dqmh8   0/1     ImagePullBackOff   0          25m
+new-replica-set-ht7zr   0/1     ImagePullBackOff   0          25m
+new-replica-set-b5nh4   0/1     ImagePullBackOff   0          25m
+new-replica-set-wfv5c   0/1     ImagePullBackOff   0          18m
+
+controlplane ~ ➜  kubectl get rs  NAME              DESIRED   CURRENT   READY   AGE
+new-replica-set   4         4         0       26m
+
+controlplane ~ ➜  kubectl get rs
+NAME              DESIRED   CURRENT   READY   AGE
+new-replica-set   4         4         0       26m
+
+controlplane ~ ➜  kubectl describe rs
+Name:         new-replica-set
+Namespace:    default
+Selector:     name=busybox-pod
+Labels:       <none>
+Annotations:  <none>
+Replicas:     4 current / 4 desired
+Pods Status:  0 Running / 4 Waiting / 0 Succeeded / 0 Failed
+Pod Template:
+  Labels:  name=busybox-pod
+  Containers:
+   busybox-container:
+    Image:      busybox
+    Port:       <none>
+    Host Port:  <none>
+    Command:
+      sh
+      -c
+      echo Hello Kubernetes! && sleep 3600
+    Environment:  <none>
+    Mounts:       <none>
+  Volumes:        <none>
+Events:
+  Type    Reason            Age   From                   Message
+  ----    ------            ----  ----                   -------
+  Normal  SuccessfulCreate  27m   replicaset-controller  Created pod: new-replica-set-b5nh4
+  Normal  SuccessfulCreate  27m   replicaset-controller  Created pod: new-replica-set-dqmh8
+  Normal  SuccessfulCreate  27m   replicaset-controller  Created pod: new-replica-set-ht7zr
+  Normal  SuccessfulCreate  27m   replicaset-controller  Created pod: new-replica-set-9fpcl
+  Normal  SuccessfulCreate  20m   replicaset-controller  Created pod: new-replica-set-wfv5c
+
+controlplane ~ ➜  kubectl delete pod new-replica-set-b5nh4 new-replica-set-dqmh8new-replica-set-ht7zr new-replica-set-wfv5c
+pod "new-replica-set-b5nh4" deleted
+pod "new-replica-set-wfv5c" deleted
+Error from server (NotFound): pods "new-replica-set-dqmh8new-replica-set-ht7zr" not found
+
+controlplane ~ ✖ kubectl delete pod new-replica-set-dqmh8 new-replica-set-ht7zrpod "new-replica-set-dqmh8" deleted
+pod "new-replica-set-ht7zr" deleted
+
+controlplane ~ ➜  kubectl get podsNAME                    READY   STATUS    RESTARTS   AGE
+new-replica-set-dp4rv   1/1     Running   0          3m1s
+new-replica-set-fl7h8   1/1     Running   0          3m1s
+new-replica-set-97fcz   1/1     Running   0          115s
+new-replica-set-dpmq7   1/1     Running   0          115s
+
+controlplane ~ ➜  kubectl scale rsnew-replica-set --replicas=5
+error: the server doesn't have a resource type "rsnew-replica-set"
+
+controlplane ~ ✖ kubectl scale rs new-replica-set --replicas=5
+replicaset.apps/new-replica-set scaled
+
+controlplane ~ ➜  kubectl get podsNAME                    READY   STATUS    RESTARTS   AGE
+new-replica-set-dp4rv   1/1     Running   0          4m59s
+new-replica-set-fl7h8   1/1     Running   0          4m59s
+new-replica-set-97fcz   1/1     Running   0          3m53s
+new-replica-set-dpmq7   1/1     Running   0          3m53s
+new-replica-set-q8c29   1/1     Running   0          11s
+
+controlplane ~ ➜  kubectl scale rs new-replica-set --replicas=2replicaset.apps/new-replica-set scaled
+
+controlplane ~ ➜  kubectl get pods
+NAME                    READY   STATUS        RESTARTS   AGE
+new-replica-set-dp4rv   1/1     Running       0          6m22s
+new-replica-set-97fcz   1/1     Running       0          5m16s
+new-replica-set-dpmq7   1/1     Terminating   0          5m16s
+new-replica-set-q8c29   1/1     Terminating   0          94s
+new-replica-set-fl7h8   1/1     Terminating   0          6m22s
+
+controlplane ~ ➜  
+
+controlplane ~ ➜  kubectl get pods
+NAME                    READY   STATUS        RESTARTS   AGE
+new-replica-set-dp4rv   1/1     Running       0          6m29s
+new-replica-set-97fcz   1/1     Running       0          5m23s
+new-replica-set-dpmq7   1/1     Terminating   0          5m23s
+new-replica-set-q8c29   1/1     Terminating   0          101s
+new-replica-set-fl7h8   1/1     Terminating   0          6m29s
+
+controlplane ~ ➜  kubectl get pods
+NAME                    READY   STATUS        RESTARTS   AGE
+new-replica-set-dp4rv   1/1     Running       0          6m37s
+new-replica-set-97fcz   1/1     Running       0          5m31s
+new-replica-set-dpmq7   1/1     Terminating   0          5m31s
+new-replica-set-q8c29   1/1     Terminating   0          109s
+new-replica-set-fl7h8   1/1     Terminating   0          6m37s
+
+controlplane ~ ➜  kubectl get pods
+NAME                    READY   STATUS        RESTARTS   AGE
+new-replica-set-dp4rv   1/1     Running       0          6m50s
+new-replica-set-97fcz   1/1     Running       0          5m44s
+new-replica-set-fl7h8   0/1     Terminating   0          6m50s
+
+controlplane ~ ➜  kubectl get pods
+NAME                    READY   STATUS    RESTARTS   AGE
+new-replica-set-dp4rv   1/1     Running   0          6m56s
+new-replica-set-97fcz   1/1     Running   0          5m50s
+
+Deployment-definition.yaml
+apiVersion:
+kind: 
+metadata:
+spec:
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+spec:
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: frontend
+    labels:
+        app: mywebsite
+        tier: frontend
+spec:
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  labels:
+    app: mywebsite
+    tier: frontend
+spec:
+    replicas: 
+    template:
+    selector:
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  labels:
+    app: mywebsite
+    tier: frontend
+spec:
+  replicas: 4
+  template:
+  selector:
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  labels:
+    app: mywebsite
+    tier: frontend
+spec:
+  replicas: 4
+  template:
+        metadata:
+          name: myapp-pod
+          labels:
+            app: myapp
+        spec:
+          containers:
+            - name: nginx
+              image: nginx
+  selector:
+
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  labels:
+    app: mywebsite
+    tier: frontend
+spec:
+  replicas: 4
+  template:
+    metadata:
+      name: myapp-pod
+      labels:
+        app: myapp
+    spec:
+      containers:
+        - name: nginx
+          image: nginx
+  selector:
+    matchLabels:
+        app: myapp
+
+controlplane ~ ➜  kubectl get pods
+No resources found in default namespace.
+
+controlplane ~ ➜  kubectl get rs
+No resources found in default namespace.
+
+controlplane ~ ➜  kubectl get deployments
+No resources found in default namespace.
+
+controlplane ~ ➜  kubectl get deployments
+NAME                  READY   UP-TO-DATE   AVAILABLE   AGE
+frontend-deployment   0/4     4            0           14s
+
+controlplane ~ ➜  kubectl get rs
+NAME                             DESIRED   CURRENT   READY   AGE
+frontend-deployment-577494fd6f   4         4         0       9m24s
+
+controlplane ~ ➜  kubectl get pods
+NAME                                   READY   STATUS             RESTARTS   AGE
+frontend-deployment-577494fd6f-ljwjt   0/1     ImagePullBackOff   0          9m45s
+frontend-deployment-577494fd6f-ph2jf   0/1     ImagePullBackOff   0          9m45s
+frontend-deployment-577494fd6f-pdgf9   0/1     ImagePullBackOff   0          9m45s
+frontend-deployment-577494fd6f-qqw5z   0/1     ImagePullBackOff   0          9m45s
+
+controlplane ~ ➜  kubectl describe rs frontend-deployment-577494fd6f-ljwjt
+Error from server (NotFound): replicasets.apps "frontend-deployment-577494fd6f-ljwjt" not found
+
+controlplane ~ ✖ kubectl describe frontend-deployment-577494fd6f-ljwjt
+error: the server doesn't have a resource type "frontend-deployment-577494fd6f-ljwjt"
+
+controlplane ~ ✖ kubectl describe deployment frontend-deployment-577494fd6f-ljwjt
+Error from server (NotFound): deployments.apps "frontend-deployment-577494fd6f-ljwjt" not found
+
+controlplane ~ ✖ kubectl describe pod frontend-deployment-577494fd6f-ljwjtName:             frontend-deployment-577494fd6f-ljwjt
+Namespace:        default
+Priority:         0
+Service Account:  default
+Node:             controlplane/192.15.3.8
+Start Time:       Mon, 20 Nov 2023 08:47:08 +0000
+Labels:           name=busybox-pod
+                  pod-template-hash=577494fd6f
+Annotations:      <none>
+Status:           Pending
+IP:               10.42.0.10
+IPs:
+  IP:           10.42.0.10
+Controlled By:  ReplicaSet/frontend-deployment-577494fd6f
+Containers:
+  busybox-container:
+    Container ID:  
+    Image:         busybox888
+    Image ID:      
+    Port:          <none>
+    Host Port:     <none>
+    Command:
+      sh
+      -c
+      echo Hello Kubernetes! && sleep 3600
+    State:          Waiting
+      Reason:       ImagePullBackOff
+    Ready:          False
+    Restart Count:  0
+    Environment:    <none>
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-9xkgm (ro)
+Conditions:
+  Type              Status
+  Initialized       True 
+  Ready             False 
+  ContainersReady   False 
+  PodScheduled      True 
+Volumes:
+  kube-api-access-9xkgm:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   BestEffort
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type     Reason     Age                  From               Message
+  ----     ------     ----                 ----               -------
+  Normal   Scheduled  15m                  default-scheduler  Successfully assigned default/frontend-deployment-577494fd6f-ljwjt to controlplane
+  Normal   Pulling    13m (x4 over 15m)    kubelet            Pulling image "busybox888"
+  Warning  Failed     13m (x4 over 15m)    kubelet            Failed to pull image "busybox888": rpc error: code = Unknown desc = failed to pull and unpack image "docker.io/library/busybox888:latest": failed to resolve reference "docker.io/library/busybox888:latest": pull access denied, repository does not exist or may require authorization: server message: insufficient_scope: authorization failed
+  Warning  Failed     13m (x4 over 15m)    kubelet            Error: ErrImagePull
+  Warning  Failed     13m (x6 over 15m)    kubelet            Error: ImagePullBackOff
+  Normal   BackOff    5m4s (x42 over 15m)  kubelet            Back-off pulling image "busybox888"
+
+controlplane ~ ➜  kubectl deployment --help
+error: unknown command "deployment" for "kubectl"
+
+controlplane ~ ✖ kubectl describe deployment --help
+Show details of a specific resource or group of resources.
+
+ Print a detailed description of the selected resources, including related
+resources such as events or controllers. You may select a single object by name,
+all objects of that type, provide a name prefix, or label selector. For example:
+
+  $ kubectl describe TYPE NAME_PREFIX
+  
+ will first check for an exact match on TYPE and NAME_PREFIX. If no such
+resource exists, it will output details for every resource that has a name
+prefixed with NAME_PREFIX.
+
+Use "kubectl api-resources" for a complete list of supported resources.
+
+Examples:
+  # Describe a node
+  kubectl describe nodes kubernetes-node-emt8.c.myproject.internal
+  
+  # Describe a pod
+  kubectl describe pods/nginx
+  
+  # Describe a pod identified by type and name in "pod.json"
+  kubectl describe -f pod.json
+  
+  # Describe all pods
+  kubectl describe pods
+  
+  # Describe pods by label name=myLabel
+  kubectl describe po -l name=myLabel
+  
+  # Describe all pods managed by the 'frontend' replication controller
+  # (rc-created pods get the name of the rc as a prefix in the pod name)
+  kubectl describe pods frontend
+
+Options:
+    -A, --all-namespaces=false:
+        If present, list the requested object(s) across all namespaces.
+        Namespace in current context is ignored even if specified with
+        --namespace.
+
+    --chunk-size=500:
+        Return large lists in chunks rather than all at once. Pass 0 to
+        disable. This flag is beta and may change in the future.
+
+    -f, --filename=[]:
+        Filename, directory, or URL to files containing the resource to
+        describe
+
+    -k, --kustomize='':
+        Process the kustomization directory. This flag can't be used together
+        with -f or -R.
+
+    -R, --recursive=false:
+        Process the directory used in -f, --filename recursively. Useful when
+        you want to manage related manifests organized within the same
+        directory.
+
+    -l, --selector='':
+        Selector (label query) to filter on, supports '=', '==', and
+        '!='.(e.g. -l key1=value1,key2=value2). Matching objects must satisfy
+        all of the specified label constraints.
+
+    --show-events=true:
+        If true, display events related to the described object.
+
+Usage:
+  kubectl describe (-f FILENAME | TYPE [NAME_PREFIX | -l label] | TYPE/NAME)
+[options]
+
+Use "kubectl options" for a list of global command-line options (applies to all
+commands).
+
+controlplane ~ ➜  kubectl create deployment --help
+Create a deployment with the specified name.
+
+Aliases:
+deployment, deploy
+
+Examples:
+  # Create a deployment named my-dep that runs the busybox image
+  kubectl create deployment my-dep --image=busybox
+  
+  # Create a deployment with a command
+  kubectl create deployment my-dep --image=busybox -- date
+  
+  # Create a deployment named my-dep that runs the nginx image with 3 replicas
+  kubectl create deployment my-dep --image=nginx --replicas=3
+  
+  # Create a deployment named my-dep that runs the busybox image and expose port
+5701
+  kubectl create deployment my-dep --image=busybox --port=5701
+
+Options:
+    --allow-missing-template-keys=true:
+        If true, ignore any errors in templates when a field or map key is
+        missing in the template. Only applies to golang and jsonpath output
+        formats.
+
+    --dry-run='none':
+        Must be "none", "server", or "client". If client strategy, only print
+        the object that would be sent, without sending it. If server strategy,
+        submit server-side request without persisting the resource.
+
+    --field-manager='kubectl-create':
+        Name of the manager used to track field ownership.
+
+    --image=[]:
+        Image names to run.
+
+    -o, --output='':
+        Output format. One of: (json, yaml, name, go-template,
+        go-template-file, template, templatefile, jsonpath, jsonpath-as-json,
+        jsonpath-file).
+
+    --port=-1:
+        The port that this container exposes.
+
+    -r, --replicas=1:
+        Number of replicas to create. Default is 1.
+
+    --save-config=false:
+        If true, the configuration of current object will be saved in its
+        annotation. Otherwise, the annotation will be unchanged. This flag is
+        useful when you want to perform kubectl apply on this object in the
+        future.
+
+    --show-managed-fields=false:
+        If true, keep the managedFields when printing objects in JSON or YAML
+        format.
+
+    --template='':
+        Template string or path to template file to use when -o=go-template,
+        -o=go-template-file. The template format is golang templates
+        [http://golang.org/pkg/text/template/#pkg-overview].
+
+    --validate='strict':
+        Must be one of: strict (or true), warn, ignore (or false).             "true" or
+        "strict" will use a schema to validate the input and fail the request
+        if invalid. It will perform server side validation if
+        ServerSideFieldValidation is enabled on the api-server, but will fall
+        back to less reliable client-side validation if not.            "warn" will
+        warn about unknown or duplicate fields without blocking the request if
+        server-side field validation is enabled on the API server, and behave
+        as "ignore" otherwise.          "false" or "ignore" will not perform any
+        schema validation, silently dropping any unknown or duplicate fields.
+
+Usage:
+  kubectl create deployment NAME --image=image -- [COMMAND] [args...] [options]
+
+Use "kubectl options" for a list of global command-line options (applies to all
+commands).
+
+controlplane ~ ➜  ls
+deployment-definition-1.yaml  sample.yaml
+
+controlplane ~ ➜  kubectl create -f deployment-definition-1.yaml
+Error from server (BadRequest): error when creating "deployment-definition-1.yaml": deployment in version "v1" cannot be handled as a Deployment: no kind "deployment" is registered for version "apps/v1" in scheme "k8s.io/apimachinery@v1.27.1-k3s1/pkg/runtime/scheme.go:100"
+
+controlplane ~ ✖ vi deployment-definition-1.yaml
+
+controlplane ~ ➜  kubectl create -f deployment-definition-1.yaml
+deployment.apps/deployment-1 created
+
+controlplane ~ ➜  kubectl create deployment httpd-frontend --image=http:2.4-alpine --replicas=3
+deployment.apps/httpd-frontend created
+
+controlplane ~ ➜  kubectl get pods
+NAME                                   READY   STATUS             RESTARTS   AGE
+frontend-deployment-577494fd6f-ph2jf   0/1     ImagePullBackOff   0          21m
+httpd-frontend-68d75b9c8b-hsr2q        0/1     ErrImagePull       0          12s
+httpd-frontend-68d75b9c8b-xgdq7        0/1     ErrImagePull       0          12s
+httpd-frontend-68d75b9c8b-jkm47        0/1     ErrImagePull       0          12s
+deployment-1-577494fd6f-4t5p9          0/1     ImagePullBackOff   0          117s
+frontend-deployment-577494fd6f-ljwjt   0/1     ImagePullBackOff   0          21m
+deployment-1-577494fd6f-2lkrw          0/1     ErrImagePull       0          117s
+frontend-deployment-577494fd6f-pdgf9   0/1     ErrImagePull       0          21m
+frontend-deployment-577494fd6f-qqw5z   0/1     ImagePullBackOff   0          21m
+
+controlplane ~ ➜  kubectl create deployment httpd-frontend --image=httpd:2.4-alpine --replicas=3
+error: failed to create deployment: deployments.apps "httpd-frontend" already exists
+
+controlplane ~ ✖ vi httpd-frontend
+
+controlplane ~ ➜  kubectl edit deployment httpd-frontend --image=httpd:2.4-alpine --replicas=3
+error: unknown flag: --image
+See 'kubectl edit --help' for usage.
+
+controlplane ~ ✖ kubectl edit --help
+Edit a resource from the default editor.
+
+ The edit command allows you to directly edit any API resource you can retrieve
+via the command-line tools. It will open the editor defined by your KUBE_EDITOR,
+or EDITOR environment variables, or fall back to 'vi' for Linux or 'notepad' for
+Windows. You can edit multiple objects, although changes are applied one at a
+time. The command accepts file names as well as command-line arguments, although
+the files you point to must be previously saved versions of resources.
+
+ Editing is done with the API version used to fetch the resource. To edit using
+a specific API version, fully-qualify the resource, version, and group.
+
+ The default format is YAML. To edit in JSON, specify "-o json".
+
+ The flag --windows-line-endings can be used to force Windows line endings,
+otherwise the default for your operating system will be used.
+
+ In the event an error occurs while updating, a temporary file will be created
+on disk that contains your unapplied changes. The most common error when
+updating a resource is another editor changing the resource on the server. When
+this occurs, you will have to apply your changes to the newer version of the
+resource, or update your temporary saved copy to include the latest resource
+version.
+
+Examples:
+  # Edit the service named 'registry'
+  kubectl edit svc/registry
+  
+  # Use an alternative editor
+  KUBE_EDITOR="nano" kubectl edit svc/registry
+  
+  # Edit the job 'myjob' in JSON using the v1 API format
+  kubectl edit job.v1.batch/myjob -o json
+  
+  # Edit the deployment 'mydeployment' in YAML and save the modified config in
+its annotation
+  kubectl edit deployment/mydeployment -o yaml --save-config
+  
+  # Edit the deployment/mydeployment's status subresource
+  kubectl edit deployment mydeployment --subresource='status'
+
+Options:
+    --allow-missing-template-keys=true:
+        If true, ignore any errors in templates when a field or map key is
+        missing in the template. Only applies to golang and jsonpath output
+        formats.
+
+    --field-manager='kubectl-edit':
+        Name of the manager used to track field ownership.
+
+    -f, --filename=[]:
+        Filename, directory, or URL to files to use to edit the resource
+
+    -k, --kustomize='':
+        Process the kustomization directory. This flag can't be used together
+        with -f or -R.
+
+    -o, --output='':
+        Output format. One of: (json, yaml, name, go-template,
+        go-template-file, template, templatefile, jsonpath, jsonpath-as-json,
+        jsonpath-file).
+
+    --output-patch=false:
+        Output the patch if the resource is edited.
+
+    -R, --recursive=false:
+        Process the directory used in -f, --filename recursively. Useful when
+        you want to manage related manifests organized within the same
+        directory.
+
+    --save-config=false:
+        If true, the configuration of current object will be saved in its
+        annotation. Otherwise, the annotation will be unchanged. This flag is
+        useful when you want to perform kubectl apply on this object in the
+        future.
+
+    --show-managed-fields=false:
+        If true, keep the managedFields when printing objects in JSON or YAML
+        format.
+
+    --subresource='':
+        If specified, edit will operate on the subresource of the requested
+        object. Must be one of [status]. This flag is beta and may change in
+        the future.
+
+    --template='':
+        Template string or path to template file to use when -o=go-template,
+        -o=go-template-file. The template format is golang templates
+        [http://golang.org/pkg/text/template/#pkg-overview].
+
+    --validate='strict':
+        Must be one of: strict (or true), warn, ignore (or false).             "true" or
+        "strict" will use a schema to validate the input and fail the request
+        if invalid. It will perform server side validation if
+        ServerSideFieldValidation is enabled on the api-server, but will fall
+        back to less reliable client-side validation if not.            "warn" will
+        warn about unknown or duplicate fields without blocking the request if
+        server-side field validation is enabled on the API server, and behave
+        as "ignore" otherwise.          "false" or "ignore" will not perform any
+        schema validation, silently dropping any unknown or duplicate fields.
+
+    --windows-line-endings=false:
+        Defaults to the line ending native to your platform.
+
+Usage:
+  kubectl edit (RESOURCE/NAME | -f FILENAME) [options]
+
+Use "kubectl options" for a list of global command-line options (applies to all
+commands).
+
+controlplane ~ ➜  ls
+deployment-definition-1.yaml  sample.yaml
+httpd-frontend
+
+controlplane ~ ➜  vi deployment-definition-1.yaml
+
+controlplane ~ ➜  kubectl create -f deployment-definition-1.yamlError from server (AlreadyExists): error when creating "deployment-definition-1.yaml": deployments.apps "httpd-frontend" already exists
+
+controlplane ~ ✖ kubectl delete httpd-frontend
+error: the server doesn't have a resource type "httpd-frontend"
+
+controlplane ~ ✖ kubectl delete -f  httpd-frontend
+No resources found
+
+controlplane ~ ➜  kubectl delete pod  httpd-frontend
+Error from server (NotFound): pods "httpd-frontend" not found
+
+controlplane ~ ✖ kubectl delete deployment httpd-frontend
+deployment.apps "httpd-frontend" deleted
+
+controlplane ~ ➜  ls
+deployment-definition-1.yaml  sample.yaml
+httpd-frontend
+
+controlplane ~ ➜  ls
+deployment-definition-1.yaml  sample.yaml
+httpd-frontend
+
+controlplane ~ ➜  kubectl get pods
+NAME                                   READY   STATUS             RESTARTS   AGE
+frontend-deployment-577494fd6f-ljwjt   0/1     ImagePullBackOff   0          31m
+frontend-deployment-577494fd6f-qqw5z   0/1     ImagePullBackOff   0          31m
+frontend-deployment-577494fd6f-pdgf9   0/1     ImagePullBackOff   0          31m
+deployment-1-577494fd6f-4t5p9          0/1     ImagePullBackOff   0          11m
+deployment-1-577494fd6f-2lkrw          0/1     ImagePullBackOff   0          11m
+frontend-deployment-577494fd6f-ph2jf   0/1     ErrImagePull       0          31m
+
+controlplane ~ ➜  kubectl create -f deployment-definition-1.yaml
+deployment.apps/httpd-frontend created
+
+controlplane ~ ➜  kubectl get pods
+NAME                                   READY   STATUS             RESTARTS   AGE
+deployment-1-577494fd6f-4t5p9          0/1     ImagePullBackOff   0          12m
+deployment-1-577494fd6f-2lkrw          0/1     ImagePullBackOff   0          12m
+frontend-deployment-577494fd6f-ph2jf   0/1     ImagePullBackOff   0          32m
+frontend-deployment-577494fd6f-ljwjt   0/1     ImagePullBackOff   0          32m
+frontend-deployment-577494fd6f-qqw5z   0/1     ImagePullBackOff   0          32m
+httpd-frontend-6b5c67c87b-sbvgl        0/1     ErrImagePull       0          12s
+httpd-frontend-6b5c67c87b-f7xpw        0/1     ErrImagePull       0          12s
+httpd-frontend-6b5c67c87b-zdd8d        0/1     ErrImagePull       0          12s
+frontend-deployment-577494fd6f-pdgf9   0/1     ImagePullBackOff   0          32m
+
+controlplane ~ ➜  vi deployment-definition-1.yaml
+
+controlplane ~ ➜  kubectl create -f deployment-definition-1.yaml
+Error from server (AlreadyExists): error when creating "deployment-definition-1.yaml": deployments.apps "httpd-frontend" already exists
+
+controlplane ~ ✖ kubectl delete pods httpd-frontend-6b5c67c87b-sbvgl httpd-frontend-6b5c67c87b-f7xpw httpd-frontend-6b5c67c87b-zdd8d
+pod "httpd-frontend-6b5c67c87b-sbvgl" deleted
+pod "httpd-frontend-6b5c67c87b-f7xpw" deleted
+pod "httpd-frontend-6b5c67c87b-zdd8d" deleted
+
+controlplane ~ ➜  kubectl get podsNAME                                   READY   STATUS             RESTARTS   AGE
+deployment-1-577494fd6f-4t5p9          0/1     ImagePullBackOff   0          16m
+deployment-1-577494fd6f-2lkrw          0/1     ImagePullBackOff   0          16m
+frontend-deployment-577494fd6f-ph2jf   0/1     ImagePullBackOff   0          35m
+frontend-deployment-577494fd6f-ljwjt   0/1     ImagePullBackOff   0          35m
+frontend-deployment-577494fd6f-qqw5z   0/1     ImagePullBackOff   0          35m
+frontend-deployment-577494fd6f-pdgf9   0/1     ImagePullBackOff   0          35m
+httpd-frontend-6b5c67c87b-2z9f6        0/1     ErrImagePull       0          11s
+httpd-frontend-6b5c67c87b-wspv4        0/1     ErrImagePull       0          11s
+httpd-frontend-6b5c67c87b-p225h        0/1     ErrImagePull       0          11s
+
+controlplane ~ ➜  kubectl get pods
+NAME                                   READY   STATUS             RESTARTS   AGE
+deployment-1-577494fd6f-2lkrw          0/1     ImagePullBackOff   0          16m
+frontend-deployment-577494fd6f-ph2jf   0/1     ImagePullBackOff   0          36m
+frontend-deployment-577494fd6f-ljwjt   0/1     ImagePullBackOff   0          36m
+frontend-deployment-577494fd6f-qqw5z   0/1     ImagePullBackOff   0          36m
+frontend-deployment-577494fd6f-pdgf9   0/1     ImagePullBackOff   0          36m
+deployment-1-577494fd6f-4t5p9          0/1     ErrImagePull       0          16m
+httpd-frontend-6b5c67c87b-p225h        0/1     ImagePullBackOff   0          19s
+httpd-frontend-6b5c67c87b-wspv4        0/1     ImagePullBackOff   0          19s
+httpd-frontend-6b5c67c87b-2z9f6        0/1     ImagePullBackOff   0          19s
+
+controlplane ~ ➜  kubectl create -f deployment-definition-1.yamlError from server (AlreadyExists): error when creating "deployment-definition-1.yaml": deployments.apps "httpd-frontend" already exists
+
+controlplane ~ ✖ kubectl reedit -f deployment-definition-1.yaml
+error: unknown command "reedit" for "kubectl"
+
+Did you mean this?
+        edit
+
+controlplane ~ ✖ undo
+-bash: undo: command not found
+
+controlplane ~ ✖ kubectl undo
+error: unknown command "undo" for "kubectl"
+
+controlplane ~ ✖ ls
+deployment-definition-1.yaml  sample.yaml
+httpd-frontend
+
+controlplane ~ ➜  kubectl delete httpd-frontend
+error: the server doesn't have a resource type "httpd-frontend"
+
+controlplane ~ ✖ kubectl delete --help
+Delete resources by file names, stdin, resources and names, or by resources and
+label selector.
+
+ JSON and YAML formats are accepted. Only one type of argument may be specified:
+file names, resources and names, or resources and label selector.
+
+ Some resources, such as pods, support graceful deletion. These resources define
+a default period before they are forcibly terminated (the grace period) but you
+may override that value with the --grace-period flag, or pass --now to set a
+grace-period of 1. Because these resources often represent entities in the
+cluster, deletion may not be acknowledged immediately. If the node hosting a pod
+is down or cannot reach the API server, termination may take significantly
+longer than the grace period. To force delete a resource, you must specify the
+--force flag. Note: only a subset of resources support graceful deletion. In
+absence of the support, the --grace-period flag is ignored.
+
+ IMPORTANT: Force deleting pods does not wait for confirmation that the pod's
+processes have been terminated, which can leave those processes running until
+the node detects the deletion and completes graceful deletion. If your processes
+use shared storage or talk to a remote API and depend on the name of the pod to
+identify themselves, force deleting those pods may result in multiple processes
+running on different machines using the same identification which may lead to
+data corruption or inconsistency. Only force delete pods when you are sure the
+pod is terminated, or if your application can tolerate multiple copies of the
+same pod running at once. Also, if you force delete pods, the scheduler may
+place new pods on those nodes before the node has released those resources and
+causing those pods to be evicted immediately.
+
+ Note that the delete command does NOT do resource version checks, so if someone
+submits an update to a resource right when you submit a delete, their update
+will be lost along with the rest of the resource.
+
+ After a CustomResourceDefinition is deleted, invalidation of discovery cache
+may take up to 6 hours. If you don't want to wait, you might want to run
+"kubectl api-resources" to refresh the discovery cache.
+
+Examples:
+  # Delete a pod using the type and name specified in pod.json
+  kubectl delete -f ./pod.json
+  
+  # Delete resources from a directory containing kustomization.yaml - e.g.
+dir/kustomization.yaml
+  kubectl delete -k dir
+  
+  # Delete resources from all files that end with '.json' - i.e. expand wildcard
+characters in file names
+  kubectl delete -f '*.json'
+  
+  # Delete a pod based on the type and name in the JSON passed into stdin
+  cat pod.json | kubectl delete -f -
+  
+  # Delete pods and services with same names "baz" and "foo"
+  kubectl delete pod,service baz foo
+  
+  # Delete pods and services with label name=myLabel
+  kubectl delete pods,services -l name=myLabel
+  
+  # Delete a pod with minimal delay
+  kubectl delete pod foo --now
+  
+  # Force delete a pod on a dead node
+  kubectl delete pod foo --force
+  
+  # Delete all pods
+  kubectl delete pods --all
+
+Options:
+    --all=false:
+        Delete all resources, in the namespace of the specified resource
+        types.
+
+    -A, --all-namespaces=false:
+        If present, list the requested object(s) across all namespaces.
+        Namespace in current context is ignored even if specified with
+        --namespace.
+
+    --cascade='background':
+        Must be "background", "orphan", or "foreground". Selects the deletion
+        cascading strategy for the dependents (e.g. Pods created by a
+        ReplicationController). Defaults to background.
+
+    --dry-run='none':
+        Must be "none", "server", or "client". If client strategy, only print
+        the object that would be sent, without sending it. If server strategy,
+        submit server-side request without persisting the resource.
+
+    --field-selector='':
+        Selector (field query) to filter on, supports '=', '==', and
+        '!='.(e.g. --field-selector key1=value1,key2=value2). The server only
+        supports a limited number of field queries per type.
+
+    -f, --filename=[]:
+        containing the resource to delete.
+
+    --force=false:
+        If true, immediately remove resources from API and bypass graceful
+        deletion. Note that immediate deletion of some resources may result in
+        inconsistency or data loss and requires confirmation.
+
+    --grace-period=-1:
+        Period of time in seconds given to the resource to terminate
+        gracefully. Ignored if negative. Set to 1 for immediate shutdown. Can
+        only be set to 0 when --force is true (force deletion).
+
+    --ignore-not-found=false:
+        Treat "resource not found" as a successful delete. Defaults to "true"
+        when --all is specified.
+
+    -k, --kustomize='':
+        Process a kustomization directory. This flag can't be used together
+        with -f or -R.
+
+    --now=false:
+        If true, resources are signaled for immediate shutdown (same as
+        --grace-period=1).
+
+    -o, --output='':
+        Output mode. Use "-o name" for shorter output (resource/name).
+
+    --raw='':
+        Raw URI to DELETE to the server.  Uses the transport specified by the
+        kubeconfig file.
+
+    -R, --recursive=false:
+        Process the directory used in -f, --filename recursively. Useful when
+        you want to manage related manifests organized within the same
+        directory.
+
+    -l, --selector='':
+        Selector (label query) to filter on, supports '=', '==', and
+        '!='.(e.g. -l key1=value1,key2=value2). Matching objects must satisfy
+        all of the specified label constraints.
+
+    --timeout=0s:
+        The length of time to wait before giving up on a delete, zero means
+        determine a timeout from the size of the object
+
+    --wait=true:
+        If true, wait for resources to be gone before returning. This waits
+        for finalizers.
+
+Usage:
+  kubectl delete ([-f FILENAME] | [-k DIRECTORY] | TYPE [(NAME | -l label |
+--all)]) [options]
+
+Use "kubectl options" for a list of global command-line options (applies to all
+commands).
+
+controlplane ~ ➜  kubectl get deployments
+NAME                  READY   UP-TO-DATE   AVAILABLE   AGE
+frontend-deployment   0/4     4            0           44m
+deployment-1          0/2     2            0           24m
+httpd-frontend        0/3     3            0           12m
+
+controlplane ~ ➜  vi httpd-frontend
+
+controlplane ~ ➜  kubectl delete deployments httpd-frontend
+deployment.apps "httpd-frontend" deleted
+
+controlplane ~ ➜  kubectl get deployments
+NAME                  READY   UP-TO-DATE   AVAILABLE   AGE
+frontend-deployment   0/4     4            0           45m
+deployment-1          0/2     2            0           25m
+
+controlplane ~ ➜  ls
+deployment-definition-1.yaml  sample.yaml
+httpd-frontend
+
+controlplane ~ ➜  kubectl get deployments
+NAME                  READY   UP-TO-DATE   AVAILABLE   AGE
+frontend-deployment   0/4     4            0           45m
+deployment-1          0/2     2            0           25m
+
+controlplane ~ ➜  ls
+deployment-definition-1.yaml  sample.yaml
+httpd-frontend
+
+controlplane ~ ➜  kubectl get deployments
+NAME                  READY   UP-TO-DATE   AVAILABLE   AGE
+frontend-deployment   0/4     4            0           45m
+deployment-1          0/2     2            0           25m
+
+controlplane ~ ➜  kubectl delete -f httpd-frontend
+No resources found
+
+controlplane ~ ➜  
+
+controlplane ~ ➜  rm httpd-frontend
+
+controlplane ~ ➜  ls
+deployment-definition-1.yaml  sample.yaml
+
+controlplane ~ ➜  kubectl create -f deployment-definition-1.yaml
+deployment.apps/httpd-frontend created
+
+controlplane ~ ➜  
