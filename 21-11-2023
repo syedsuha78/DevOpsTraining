@@ -1,0 +1,829 @@
+controlplane ~ ➜  kubectl get pods
+NAME                        READY   STATUS    RESTARTS   AGE
+frontend-58f7796bbb-prmhr   1/1     Running   0          59s
+frontend-58f7796bbb-629c4   1/1     Running   0          59s
+frontend-58f7796bbb-cdrx7   1/1     Running   0          59s
+frontend-58f7796bbb-l2dbs   1/1     Running   0          59s
+
+controlplane ~ ➜  kubectl get deployments
+NAME       READY   UP-TO-DATE   AVAILABLE   AGE
+frontend   4/4     4            4           73s
+
+controlplane ~ ➜  /root/curl-test.sh
+Hello, Application Version: v1 ; Color: blue OK
+
+Hello, Application Version: v1 ; Color: blue OK
+
+Hello, Application Version: v1 ; Color: blue OK
+
+Hello, Application Version: v1 ; Color: blue OK
+
+Hello, Application Version: v1 ; Color: blue OK
+
+Hello, Application Version: v1 ; Color: blue OK
+
+Hello, Application Version: v1 ; Color: blue OK
+
+Hello, Application Version: v1 ; Color: blue OK
+
+Hello, Application Version: v1 ; Color: blue OK
+
+Hello, Application Version: v1 ; Color: blue OK
+
+Hello, Application Version: v1 ; Color: blue OK
+
+Hello, Application Version: v1 ; Color: blue OK
+
+Hello, Application Version: v1 ; Color: blue OK
+
+Hello, Application Version: v1 ; Color: blue OK
+
+Hello, Application Version: v1 ; Color: blue OK
+
+Hello, Application Version: v1 ; Color: blue OK
+
+Hello, Application Version: v1 ; Color: blue OK
+
+Hello, Application Version: v1 ; Color: blue OK
+
+Hello, Application Version: v1 ; Color: blue OK
+
+Hello, Application Version: v1 ; Color: blue OK
+
+Hello, Application Version: v1 ; Color: blue OK
+
+Hello, Application Version: v1 ; Color: blue OK
+
+Hello, Application Version: v1 ; Color: blue OK
+
+Hello, Application Version: v1 ; Color: blue OK
+
+Hello, Application Version: v1 ; Color: blue OK
+
+Hello, Application Version: v1 ; Color: blue OK
+
+Hello, Application Version: v1 ; Color: blue OK
+
+Hello, Application Version: v1 ; Color: blue OK
+
+Hello, Application Version: v1 ; Color: blue OK
+
+Hello, Application Version: v1 ; Color: blue OK
+
+Hello, Application Version: v1 ; Color: blue OK
+
+Hello, Application Version: v1 ; Color: blue OK
+
+Hello, Application Version: v1 ; Color: blue OK
+
+Hello, Application Version: v1 ; Color: blue OK
+
+Hello, Application Version: v1 ; Color: blue OK
+
+
+controlplane ~ ➜  kubectl get pods
+NAME                        READY   STATUS    RESTARTS   AGE
+frontend-58f7796bbb-prmhr   1/1     Running   0          2m55s
+frontend-58f7796bbb-629c4   1/1     Running   0          2m55s
+frontend-58f7796bbb-cdrx7   1/1     Running   0          2m55s
+frontend-58f7796bbb-l2dbs   1/1     Running   0          2m55s
+
+controlplane ~ ➜  ls
+curl-pod.yaml  curl-test.sh
+
+controlplane ~ ➜  kubectl describe frontend
+error: the server doesn't have a resource type "frontend"
+
+controlplane ~ ✖ kubectl describe deployment frontend
+Name:                   frontend
+Namespace:              default
+CreationTimestamp:      Tue, 21 Nov 2023 07:36:21 +0000
+Labels:                 <none>
+Annotations:            deployment.kubernetes.io/revision: 1
+Selector:               name=webapp
+Replicas:               4 desired | 4 updated | 4 total | 4 available | 0 unavailable
+StrategyType:           RollingUpdate
+MinReadySeconds:        20
+RollingUpdateStrategy:  25% max unavailable, 25% max surge
+Pod Template:
+  Labels:  name=webapp
+  Containers:
+   simple-webapp:
+    Image:        kodekloud/webapp-color:v1
+    Port:         8080/TCP
+    Host Port:    0/TCP
+    Environment:  <none>
+    Mounts:       <none>
+  Volumes:        <none>
+Conditions:
+  Type           Status  Reason
+  ----           ------  ------
+  Available      True    MinimumReplicasAvailable
+  Progressing    True    NewReplicaSetAvailable
+OldReplicaSets:  <none>
+NewReplicaSet:   frontend-58f7796bbb (4/4 replicas created)
+Events:
+  Type    Reason             Age    From                   Message
+  ----    ------             ----   ----                   -------
+  Normal  ScalingReplicaSet  4m52s  deployment-controller  Scaled up replica set frontend-58f7796bbb to 4
+
+controlplane ~ ➜  kubectl describe frontend
+error: the server doesn't have a resource type "frontend"
+
+controlplane ~ ✖ kubectl edit deployment frontend
+deployment.apps/frontend edited
+
+controlplane ~ ➜  kubectl describe frontend
+error: the server doesn't have a resource type "frontend"
+
+controlplane ~ ✖ kubectl describe deployment frontend
+Name:                   frontend
+Namespace:              default
+CreationTimestamp:      Tue, 21 Nov 2023 07:36:21 +0000
+Labels:                 <none>
+Annotations:            deployment.kubernetes.io/revision: 2
+Selector:               name=webapp
+Replicas:               4 desired | 2 updated | 5 total | 3 available | 2 unavailable
+StrategyType:           RollingUpdate
+MinReadySeconds:        20
+RollingUpdateStrategy:  25% max unavailable, 25% max surge
+Pod Template:
+  Labels:  name=webapp
+  Containers:
+   simple-webapp:
+    Image:        kodekloud/webapp-color:v2
+    Port:         8080/TCP
+    Host Port:    0/TCP
+    Environment:  <none>
+    Mounts:       <none>
+  Volumes:        <none>
+Conditions:
+  Type           Status  Reason
+  ----           ------  ------
+  Available      True    MinimumReplicasAvailable
+  Progressing    True    ReplicaSetUpdated
+OldReplicaSets:  frontend-58f7796bbb (3/3 replicas created)
+NewReplicaSet:   frontend-75d9b4f9b9 (2/2 replicas created)
+Events:
+  Type    Reason             Age    From                   Message
+  ----    ------             ----   ----                   -------
+  Normal  ScalingReplicaSet  7m50s  deployment-controller  Scaled up replica set frontend-58f7796bbb to 4
+  Normal  ScalingReplicaSet  10s    deployment-controller  Scaled up replica set frontend-75d9b4f9b9 to 1
+  Normal  ScalingReplicaSet  10s    deployment-controller  Scaled down replica set frontend-58f7796bbb to 3 from 4
+  Normal  ScalingReplicaSet  10s    deployment-controller  Scaled up replica set frontend-75d9b4f9b9 to 2 from 1
+
+controlplane ~ ➜  /root/curl-test.sh
+Hello, Application Version: v2 ; Color: green OK
+
+Hello, Application Version: v2 ; Color: green OK
+
+Hello, Application Version: v1 ; Color: blue OK
+
+Hello, Application Version: v1 ; Color: blue OK
+
+Hello, Application Version: v2 ; Color: green OK
+
+Hello, Application Version: v2 ; Color: green OK
+
+Hello, Application Version: v2 ; Color: green OK
+
+Hello, Application Version: v2 ; Color: green OK
+
+Hello, Application Version: v2 ; Color: green OK
+
+Hello, Application Version: v1 ; Color: blue OK
+
+Hello, Application Version: v2 ; Color: green OK
+
+Hello, Application Version: v1 ; Color: blue OK
+
+Hello, Application Version: v2 ; Color: green OK
+
+Hello, Application Version: v2 ; Color: green OK
+
+Hello, Application Version: v2 ; Color: green OK
+
+Hello, Application Version: v2 ; Color: green OK
+
+Hello, Application Version: v2 ; Color: green OK
+
+Hello, Application Version: v2 ; Color: green OK
+
+Hello, Application Version: v2 ; Color: green OK
+
+Hello, Application Version: v2 ; Color: green OK
+
+Hello, Application Version: v2 ; Color: green OK
+
+Hello, Application Version: v2 ; Color: green OK
+
+Hello, Application Version: v2 ; Color: green OK
+
+Hello, Application Version: v2 ; Color: green OK
+
+Hello, Application Version: v2 ; Color: green OK
+
+Hello, Application Version: v2 ; Color: green OK
+
+Hello, Application Version: v1 ; Color: blue OK
+
+Hello, Application Version: v1 ; Color: blue OK
+
+Hello, Application Version: v1 ; Color: blue OK
+
+Hello, Application Version: v2 ; Color: green OK
+
+Hello, Application Version: v2 ; Color: green OK
+
+Hello, Application Version: v2 ; Color: green OK
+
+Hello, Application Version: v2 ; Color: green OK
+
+Hello, Application Version: v2 ; Color: green OK
+
+Hello, Application Version: v2 ; Color: green OK
+
+controlplane ~ ➜  kubectl describe deployment frontend
+Name:                   frontend
+Namespace:              default
+CreationTimestamp:      Tue, 21 Nov 2023 07:36:21 +0000
+Labels:                 <none>
+Annotations:            deployment.kubernetes.io/revision: 2
+Selector:               name=webapp
+Replicas:               4 desired | 4 updated | 4 total | 4 available | 0 unavailable
+StrategyType:           RollingUpdate
+MinReadySeconds:        20
+RollingUpdateStrategy:  25% max unavailable, 25% max surge
+Pod Template:
+  Labels:  name=webapp
+  Containers:
+   simple-webapp:
+    Image:        kodekloud/webapp-color:v2
+    Port:         8080/TCP
+    Host Port:    0/TCP
+    Environment:  <none>
+    Mounts:       <none>
+  Volumes:        <none>
+Conditions:
+  Type           Status  Reason
+  ----           ------  ------
+  Available      True    MinimumReplicasAvailable
+  Progressing    True    NewReplicaSetAvailable
+OldReplicaSets:  frontend-58f7796bbb (0/0 replicas created)
+NewReplicaSet:   frontend-75d9b4f9b9 (4/4 replicas created)
+Events:
+  Type    Reason             Age    From                   Message
+  ----    ------             ----   ----                   -------
+  Normal  ScalingReplicaSet  9m59s  deployment-controller  Scaled up replica set frontend-58f7796bbb to 4
+  Normal  ScalingReplicaSet  2m19s  deployment-controller  Scaled up replica set frontend-75d9b4f9b9 to 1
+  Normal  ScalingReplicaSet  2m19s  deployment-controller  Scaled down replica set frontend-58f7796bbb to 3 from 4
+  Normal  ScalingReplicaSet  2m19s  deployment-controller  Scaled up replica set frontend-75d9b4f9b9 to 2 from 1
+  Normal  ScalingReplicaSet  116s   deployment-controller  Scaled down replica set frontend-58f7796bbb to 1 from 3
+  Normal  ScalingReplicaSet  116s   deployment-controller  Scaled up replica set frontend-75d9b4f9b9 to 4 from 2
+  Normal  ScalingReplicaSet  91s    deployment-controller  Scaled down replica set frontend-58f7796bbb to 0 from 1
+
+controlplane ~ ➜  kubectl edit deployment frontend
+deployment.apps/frontend edited
+
+controlplane ~ ➜  kubectl describe deployment frontend
+Name:               frontend
+Namespace:          default
+CreationTimestamp:  Tue, 21 Nov 2023 07:36:21 +0000
+Labels:             <none>
+Annotations:        deployment.kubernetes.io/revision: 2
+Selector:           name=webapp
+Replicas:           4 desired | 4 updated | 4 total | 4 available | 0 unavailable
+StrategyType:       Recreate
+MinReadySeconds:    20
+Pod Template:
+  Labels:  name=webapp
+  Containers:
+   simple-webapp:
+    Image:        kodekloud/webapp-color:v2
+    Port:         8080/TCP
+    Host Port:    0/TCP
+    Environment:  <none>
+    Mounts:       <none>
+  Volumes:        <none>
+Conditions:
+  Type           Status  Reason
+  ----           ------  ------
+  Available      True    MinimumReplicasAvailable
+  Progressing    True    NewReplicaSetAvailable
+OldReplicaSets:  frontend-58f7796bbb (0/0 replicas created)
+NewReplicaSet:   frontend-75d9b4f9b9 (4/4 replicas created)
+Events:
+  Type    Reason             Age    From                   Message
+  ----    ------             ----   ----                   -------
+  Normal  ScalingReplicaSet  12m    deployment-controller  Scaled up replica set frontend-58f7796bbb to 4
+  Normal  ScalingReplicaSet  4m28s  deployment-controller  Scaled up replica set frontend-75d9b4f9b9 to 1
+  Normal  ScalingReplicaSet  4m28s  deployment-controller  Scaled down replica set frontend-58f7796bbb to 3 from 4
+  Normal  ScalingReplicaSet  4m28s  deployment-controller  Scaled up replica set frontend-75d9b4f9b9 to 2 from 1
+  Normal  ScalingReplicaSet  4m5s   deployment-controller  Scaled down replica set frontend-58f7796bbb to 1 from 3
+  Normal  ScalingReplicaSet  4m5s   deployment-controller  Scaled up replica set frontend-75d9b4f9b9 to 4 from 2
+  Normal  ScalingReplicaSet  3m40s  deployment-controller  Scaled down replica set frontend-58f7796bbb to 0 from 1
+
+controlplane ~ ➜  kubectl edit deployment frontend
+deployment.apps/frontend edited
+
+controlplane ~ ➜  kubectl describe deployment frontend
+Name:               frontend
+Namespace:          default
+CreationTimestamp:  Tue, 21 Nov 2023 07:36:21 +0000
+Labels:             <none>
+Annotations:        deployment.kubernetes.io/revision: 2
+Selector:           name=webapp
+Replicas:           4 desired | 0 updated | 0 total | 0 available | 0 unavailable
+StrategyType:       Recreate
+MinReadySeconds:    20
+Pod Template:
+  Labels:  name=webapp
+  Containers:
+   simple-webapp:
+    Image:        kodekloud/webapp-color:v3
+    Port:         8080/TCP
+    Host Port:    0/TCP
+    Environment:  <none>
+    Mounts:       <none>
+  Volumes:        <none>
+Conditions:
+  Type           Status  Reason
+  ----           ------  ------
+  Progressing    True    NewReplicaSetAvailable
+  Available      False   MinimumReplicasUnavailable
+OldReplicaSets:  frontend-58f7796bbb (0/0 replicas created), frontend-75d9b4f9b9 (0/0 replicas created)
+NewReplicaSet:   <none>
+Events:
+  Type    Reason             Age    From                   Message
+  ----    ------             ----   ----                   -------
+  Normal  ScalingReplicaSet  13m    deployment-controller  Scaled up replica set frontend-58f7796bbb to 4
+  Normal  ScalingReplicaSet  5m57s  deployment-controller  Scaled up replica set frontend-75d9b4f9b9 to 1
+  Normal  ScalingReplicaSet  5m57s  deployment-controller  Scaled down replica set frontend-58f7796bbb to 3 from 4
+  Normal  ScalingReplicaSet  5m57s  deployment-controller  Scaled up replica set frontend-75d9b4f9b9 to 2 from 1
+  Normal  ScalingReplicaSet  5m34s  deployment-controller  Scaled down replica set frontend-58f7796bbb to 1 from 3
+  Normal  ScalingReplicaSet  5m34s  deployment-controller  Scaled up replica set frontend-75d9b4f9b9 to 4 from 2
+  Normal  ScalingReplicaSet  5m9s   deployment-controller  Scaled down replica set frontend-58f7796bbb to 0 from 1
+  Normal  ScalingReplicaSet  6s     deployment-controller  Scaled down replica set frontend-75d9b4f9b9 to 0 from 4
+
+controlplane ~ ➜  /root/curl-test.sh
+Hello, Application Version: v3 ; Color: red OK
+
+Hello, Application Version: v3 ; Color: red OK
+
+Hello, Application Version: v3 ; Color: red OK
+
+Hello, Application Version: v3 ; Color: red OK
+
+Hello, Application Version: v3 ; Color: red OK
+
+Hello, Application Version: v3 ; Color: red OK
+
+Hello, Application Version: v3 ; Color: red OK
+
+Hello, Application Version: v3 ; Color: red OK
+
+Hello, Application Version: v3 ; Color: red OK
+
+Hello, Application Version: v3 ; Color: red OK
+
+Hello, Application Version: v3 ; Color: red OK
+
+Hello, Application Version: v3 ; Color: red OK
+
+Hello, Application Version: v3 ; Color: red OK
+
+Hello, Application Version: v3 ; Color: red OK
+
+Hello, Application Version: v3 ; Color: red OK
+
+Hello, Application Version: v3 ; Color: red OK
+
+Hello, Application Version: v3 ; Color: red OK
+
+Hello, Application Version: v3 ; Color: red OK
+
+Hello, Application Version: v3 ; Color: red OK
+
+Hello, Application Version: v3 ; Color: red OK
+
+Hello, Application Version: v3 ; Color: red OK
+
+Hello, Application Version: v3 ; Color: red OK
+
+Hello, Application Version: v3 ; Color: red OK
+
+Hello, Application Version: v3 ; Color: red OK
+
+Hello, Application Version: v3 ; Color: red OK
+
+Hello, Application Version: v3 ; Color: red OK
+
+Hello, Application Version: v3 ; Color: red OK
+
+Hello, Application Version: v3 ; Color: red OK
+
+Hello, Application Version: v3 ; Color: red OK
+
+Hello, Application Version: v3 ; Color: red OK
+
+Hello, Application Version: v3 ; Color: red OK
+
+Hello, Application Version: v3 ; Color: red OK
+
+Hello, Application Version: v3 ; Color: red OK
+
+Hello, Application Version: v3 ; Color: red OK
+
+Hello, Application Version: v3 ; Color: red OK
+
+controlplane ~ ➜  kubectl get podsNo resources found in default namespace.
+
+controlplane ~ ➜  kubectl get rs
+No resources found in default namespace.
+
+controlplane ~ ➜  kubectl get rs
+NAME              DESIRED   CURRENT   READY   AGE
+new-replica-set   4         4         0       12s
+
+controlplane ~ ➜  kubectl describe rs
+Name:         new-replica-set
+Namespace:    default
+Selector:     name=busybox-pod
+Labels:       <none>
+Annotations:  <none>
+Replicas:     4 current / 4 desired
+Pods Status:  0 Running / 4 Waiting / 0 Succeeded / 0 Failed
+Pod Template:
+  Labels:  name=busybox-pod
+  Containers:
+   busybox-container:
+    Image:      busybox777
+    Port:       <none>
+    Host Port:  <none>
+    Command:
+      sh
+      -c
+      echo Hello Kubernetes! && sleep 3600
+    Environment:  <none>
+    Mounts:       <none>
+  Volumes:        <none>
+Events:
+  Type    Reason            Age   From                   Message
+  ----    ------            ----  ----                   -------
+  Normal  SuccessfulCreate  50s   replicaset-controller  Created pod: new-replica-set-b5nh4
+  Normal  SuccessfulCreate  50s   replicaset-controller  Created pod: new-replica-set-dqmh8
+  Normal  SuccessfulCreate  50s   replicaset-controller  Created pod: new-replica-set-ht7zr
+  Normal  SuccessfulCreate  50s   replicaset-controller  Created pod: new-replica-set-9fpcl
+
+controlplane ~ ➜  kubectl describe rs new-replica-set
+Name:         new-replica-set
+Namespace:    default
+Selector:     name=busybox-pod
+Labels:       <none>
+Annotations:  <none>
+Replicas:     4 current / 4 desired
+Pods Status:  0 Running / 4 Waiting / 0 Succeeded / 0 Failed
+Pod Template:
+  Labels:  name=busybox-pod
+  Containers:
+   busybox-container:
+    Image:      busybox777
+    Port:       <none>
+    Host Port:  <none>
+    Command:
+      sh
+      -c
+      echo Hello Kubernetes! && sleep 3600
+    Environment:  <none>
+    Mounts:       <none>
+  Volumes:        <none>
+Events:
+  Type    Reason            Age   From                   Message
+  ----    ------            ----  ----                   -------
+  Normal  SuccessfulCreate  77s   replicaset-controller  Created pod: new-replica-set-b5nh4
+  Normal  SuccessfulCreate  77s   replicaset-controller  Created pod: new-replica-set-dqmh8
+  Normal  SuccessfulCreate  77s   replicaset-controller  Created pod: new-replica-set-ht7zr
+  Normal  SuccessfulCreate  77s   replicaset-controller  Created pod: new-replica-set-9fpcl
+
+controlplane ~ ➜  kubectl describe pod new-replica-set-b5nh4
+Name:             new-replica-set-b5nh4
+Namespace:        default
+Priority:         0
+Service Account:  default
+Node:             controlplane/192.9.50.9
+Start Time:       Mon, 20 Nov 2023 05:50:32 +0000
+Labels:           name=busybox-pod
+Annotations:      <none>
+Status:           Pending
+IP:               10.42.0.9
+IPs:
+  IP:           10.42.0.9
+Controlled By:  ReplicaSet/new-replica-set
+Containers:
+  busybox-container:
+    Container ID:  
+    Image:         busybox777
+    Image ID:      
+    Port:          <none>
+    Host Port:     <none>
+    Command:
+      sh
+      -c
+      echo Hello Kubernetes! && sleep 3600
+    State:          Waiting
+      Reason:       ImagePullBackOff
+    Ready:          False
+    Restart Count:  0
+    Environment:    <none>
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-s9kbv (ro)
+Conditions:
+  Type              Status
+  Initialized       True 
+  Ready             False 
+  ContainersReady   False 
+  PodScheduled      True 
+Volumes:
+  kube-api-access-s9kbv:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   BestEffort
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type     Reason     Age                    From               Message
+  ----     ------     ----                   ----               -------
+  Normal   Scheduled  4m27s                  default-scheduler  Successfully assigned default/new-replica-set-b5nh4 to controlplane
+  Normal   Pulling    2m51s (x4 over 4m27s)  kubelet            Pulling image "busybox777"
+  Warning  Failed     2m50s (x4 over 4m26s)  kubelet            Failed to pull image "busybox777": rpc error: code = Unknown desc = failed to pull and unpack image "docker.io/library/busybox777:latest": failed to resolve reference "docker.io/library/busybox777:latest": pull access denied, repository does not exist or may require authorization: server message: insufficient_scope: authorization failed
+  Warning  Failed     2m50s (x4 over 4m26s)  kubelet            Error: ErrImagePull
+  Warning  Failed     2m37s (x6 over 4m26s)  kubelet            Error: ImagePullBackOff
+  Normal   BackOff    2m26s (x7 over 4m26s)  kubelet            Back-off pulling image "busybox777"
+
+controlplane ~ ➜  /root/curl-test.sh
+Hello, Application Version: v2 ; Color: green OK
+
+Hello, Application Version: v2 ; Color: green OK
+
+Hello, Application Version: v1 ; Color: blue OK
+
+Hello, Application Version: v1 ; Color: blue OK
+
+Hello, Application Version: v2 ; Color: green OK
+
+Hello, Application Version: v2 ; Color: green OK
+
+Hello, Application Version: v2 ; Color: green OK
+
+Hello, Application Version: v2 ; Color: green OK
+
+Hello, Application Version: v2 ; Color: green OK
+
+Hello, Application Version: v1 ; Color: blue OK
+
+Hello, Application Version: v2 ; Color: green OK
+
+Hello, Application Version: v1 ; Color: blue OK
+
+Hello, Application Version: v2 ; Color: green OK
+
+Hello, Application Version: v2 ; Color: green OK
+
+Hello, Application Version: v2 ; Color: green OK
+
+Hello, Application Version: v2 ; Color: green OK
+
+Hello, Application Version: v2 ; Color: green OK
+
+Hello, Application Version: v2 ; Color: green OK
+
+Hello, Application Version: v2 ; Color: green OK
+
+Hello, Application Version: v2 ; Color: green OK
+
+Hello, Application Version: v2 ; Color: green OK
+
+Hello, Application Version: v2 ; Color: green OK
+
+Hello, Application Version: v2 ; Color: green OK
+
+Hello, Application Version: v2 ; Color: green OK
+
+Hello, Application Version: v2 ; Color: green OK
+
+Hello, Application Version: v2 ; Color: green OK
+
+Hello, Application Version: v1 ; Color: blue OK
+
+Hello, Application Version: v1 ; Color: blue OK
+
+Hello, Application Version: v1 ; Color: blue OK
+
+Hello, Application Version: v2 ; Color: green OK
+
+Hello, Application Version: v2 ; Color: green OK
+
+Hello, Application Version: v2 ; Color: green OK
+
+Hello, Application Version: v2 ; Color: green OK
+
+Hello, Application Version: v2 ; Color: green OK
+
+Hello, Application Version: v2 ; Color: green OK
+
+controlplane ~ ➜  kubectl describe deployment frontend
+Name:                   frontend
+Namespace:              default
+CreationTimestamp:      Tue, 21 Nov 2023 07:36:21 +0000
+Labels:                 <none>
+Annotations:            deployment.kubernetes.io/revision: 2
+Selector:               name=webapp
+Replicas:               4 desired | 4 updated | 4 total | 4 available | 0 unavailable
+StrategyType:           RollingUpdate
+MinReadySeconds:        20
+RollingUpdateStrategy:  25% max unavailable, 25% max surge
+Pod Template:
+  Labels:  name=webapp
+  Containers:
+   simple-webapp:
+    Image:        kodekloud/webapp-color:v2
+    Port:         8080/TCP
+    Host Port:    0/TCP
+    Environment:  <none>
+    Mounts:       <none>
+  Volumes:        <none>
+Conditions:
+  Type           Status  Reason
+  ----           ------  ------
+  Available      True    MinimumReplicasAvailable
+  Progressing    True    NewReplicaSetAvailable
+OldReplicaSets:  frontend-58f7796bbb (0/0 replicas created)
+NewReplicaSet:   frontend-75d9b4f9b9 (4/4 replicas created)
+Events:
+  Type    Reason             Age    From                   Message
+  ----    ------             ----   ----                   -------
+  Normal  ScalingReplicaSet  9m59s  deployment-controller  Scaled up replica set frontend-58f7796bbb to 4
+  Normal  ScalingReplicaSet  2m19s  deployment-controller  Scaled up replica set frontend-75d9b4f9b9 to 1
+  Normal  ScalingReplicaSet  2m19s  deployment-controller  Scaled down replica set frontend-58f7796bbb to 3 from 4
+  Normal  ScalingReplicaSet  2m19s  deployment-controller  Scaled up replica set frontend-75d9b4f9b9 to 2 from 1
+  Normal  ScalingReplicaSet  116s   deployment-controller  Scaled down replica set frontend-58f7796bbb to 1 from 3
+  Normal  ScalingReplicaSet  116s   deployment-controller  Scaled up replica set frontend-75d9b4f9b9 to 4 from 2
+  Normal  ScalingReplicaSet  91s    deployment-controller  Scaled down replica set frontend-58f7796bbb to 0 from 1
+
+controlplane ~ ➜  kubectl edit deployment frontend
+deployment.apps/frontend edited
+
+controlplane ~ ➜  kubectl describe deployment frontend
+Name:               frontend
+Namespace:          default
+CreationTimestamp:  Tue, 21 Nov 2023 07:36:21 +0000
+Labels:             <none>
+Annotations:        deployment.kubernetes.io/revision: 2
+Selector:           name=webapp
+Replicas:           4 desired | 4 updated | 4 total | 4 available | 0 unavailable
+StrategyType:       Recreate
+MinReadySeconds:    20
+Pod Template:
+  Labels:  name=webapp
+  Containers:
+   simple-webapp:
+    Image:        kodekloud/webapp-color:v2
+    Port:         8080/TCP
+    Host Port:    0/TCP
+    Environment:  <none>
+    Mounts:       <none>
+  Volumes:        <none>
+Conditions:
+  Type           Status  Reason
+  ----           ------  ------
+  Available      True    MinimumReplicasAvailable
+  Progressing    True    NewReplicaSetAvailable
+OldReplicaSets:  frontend-58f7796bbb (0/0 replicas created)
+NewReplicaSet:   frontend-75d9b4f9b9 (4/4 replicas created)
+Events:
+  Type    Reason             Age    From                   Message
+  ----    ------             ----   ----                   -------
+  Normal  ScalingReplicaSet  12m    deployment-controller  Scaled up replica set frontend-58f7796bbb to 4
+  Normal  ScalingReplicaSet  4m28s  deployment-controller  Scaled up replica set frontend-75d9b4f9b9 to 1
+  Normal  ScalingReplicaSet  4m28s  deployment-controller  Scaled down replica set frontend-58f7796bbb to 3 from 4
+  Normal  ScalingReplicaSet  4m28s  deployment-controller  Scaled up replica set frontend-75d9b4f9b9 to 2 from 1
+  Normal  ScalingReplicaSet  4m5s   deployment-controller  Scaled down replica set frontend-58f7796bbb to 1 from 3
+  Normal  ScalingReplicaSet  4m5s   deployment-controller  Scaled up replica set frontend-75d9b4f9b9 to 4 from 2
+  Normal  ScalingReplicaSet  3m40s  deployment-controller  Scaled down replica set frontend-58f7796bbb to 0 from 1
+
+controlplane ~ ➜  kubectl edit deployment frontend
+deployment.apps/frontend edited
+
+controlplane ~ ➜  kubectl describe deployment frontend
+Name:               frontend
+Namespace:          default
+CreationTimestamp:  Tue, 21 Nov 2023 07:36:21 +0000
+Labels:             <none>
+Annotations:        deployment.kubernetes.io/revision: 2
+Selector:           name=webapp
+Replicas:           4 desired | 0 updated | 0 total | 0 available | 0 unavailable
+StrategyType:       Recreate
+MinReadySeconds:    20
+Pod Template:
+  Labels:  name=webapp
+  Containers:
+   simple-webapp:
+    Image:        kodekloud/webapp-color:v3
+    Port:         8080/TCP
+    Host Port:    0/TCP
+    Environment:  <none>
+    Mounts:       <none>
+  Volumes:        <none>
+Conditions:
+  Type           Status  Reason
+  ----           ------  ------
+  Progressing    True    NewReplicaSetAvailable
+  Available      False   MinimumReplicasUnavailable
+OldReplicaSets:  frontend-58f7796bbb (0/0 replicas created), frontend-75d9b4f9b9 (0/0 replicas created)
+NewReplicaSet:   <none>
+Events:
+  Type    Reason             Age    From                   Message
+  ----    ------             ----   ----                   -------
+  Normal  ScalingReplicaSet  13m    deployment-controller  Scaled up replica set frontend-58f7796bbb to 4
+  Normal  ScalingReplicaSet  5m57s  deployment-controller  Scaled up replica set frontend-75d9b4f9b9 to 1
+  Normal  ScalingReplicaSet  5m57s  deployment-controller  Scaled down replica set frontend-58f7796bbb to 3 from 4
+  Normal  ScalingReplicaSet  5m57s  deployment-controller  Scaled up replica set frontend-75d9b4f9b9 to 2 from 1
+  Normal  ScalingReplicaSet  5m34s  deployment-controller  Scaled down replica set frontend-58f7796bbb to 1 from 3
+  Normal  ScalingReplicaSet  5m34s  deployment-controller  Scaled up replica set frontend-75d9b4f9b9 to 4 from 2
+  Normal  ScalingReplicaSet  5m9s   deployment-controller  Scaled down replica set frontend-58f7796bbb to 0 from 1
+  Normal  ScalingReplicaSet  6s     deployment-controller  Scaled down replica set frontend-75d9b4f9b9 to 0 from 4
+
+controlplane ~ ➜  /root/curl-test.sh
+Hello, Application Version: v3 ; Color: red OK
+
+Hello, Application Version: v3 ; Color: red OK
+
+Hello, Application Version: v3 ; Color: red OK
+
+Hello, Application Version: v3 ; Color: red OK
+
+Hello, Application Version: v3 ; Color: red OK
+
+Hello, Application Version: v3 ; Color: red OK
+
+Hello, Application Version: v3 ; Color: red OK
+
+Hello, Application Version: v3 ; Color: red OK
+
+Hello, Application Version: v3 ; Color: red OK
+
+Hello, Application Version: v3 ; Color: red OK
+
+Hello, Application Version: v3 ; Color: red OK
+
+Hello, Application Version: v3 ; Color: red OK
+
+Hello, Application Version: v3 ; Color: red OK
+
+Hello, Application Version: v3 ; Color: red OK
+
+Hello, Application Version: v3 ; Color: red OK
+
+Hello, Application Version: v3 ; Color: red OK
+
+Hello, Application Version: v3 ; Color: red OK
+
+Hello, Application Version: v3 ; Color: red OK
+
+Hello, Application Version: v3 ; Color: red OK
+
+Hello, Application Version: v3 ; Color: red OK
+
+Hello, Application Version: v3 ; Color: red OK
+
+Hello, Application Version: v3 ; Color: red OK
+
+Hello, Application Version: v3 ; Color: red OK
+
+Hello, Application Version: v3 ; Color: red OK
+
+Hello, Application Version: v3 ; Color: red OK
+
+Hello, Application Version: v3 ; Color: red OK
+
+Hello, Application Version: v3 ; Color: red OK
+
+Hello, Application Version: v3 ; Color: red OK
+
+Hello, Application Version: v3 ; Color: red OK
+
+Hello, Application Version: v3 ; Color: red OK
+
+Hello, Application Version: v3 ; Color: red OK
+
+Hello, Application Version: v3 ; Color: red OK
+
+Hello, Application Version: v3 ; Color: red OK
+
+Hello, Application Version: v3 ; Color: red OK
+
+Hello, Application Version: v3 ; Color: red OK
