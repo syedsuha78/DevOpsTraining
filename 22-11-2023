@@ -1,0 +1,86 @@
+apiVersion: 
+kind:
+metadata:
+spec:
+
+apiVersion: v1
+kind: Service
+metadata:
+spec:
+
+apiVersion: v1
+kind: Service
+metadata:
+    name: frontend
+    labels:
+        app: myapp
+spec:
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+  labels:
+    app: myapp
+spec:
+    type:
+    selector:
+    ports:
+
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+  labels:
+    app: myapp
+spec:
+  type:
+  ports:
+    - port: 80
+      targetPort: 80
+  selector:
+
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+  labels:
+    app: myapp
+spec:
+  type: NodePort
+  ports:
+    - port: 80
+      targetPort: 80
+  selector:
+
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+  labels:
+    app: myapp
+spec:
+  type: NodePort
+  ports:
+    - port: 80
+      targetPort: 80
+  selector:
+    app: myapp
+
+
+apiVersion: v1
+kind: Service
+metadata:
+    name: image-processing
+    labels:
+        app: myapp
+spec:
+    type: ClusterIP
+    ports:
+        - port: 80
+          targetPort: 8080
+    selector:
+        tier: backend
